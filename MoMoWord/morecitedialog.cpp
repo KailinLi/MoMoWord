@@ -6,6 +6,10 @@ MoReciteDialog::MoReciteDialog(QWidget *parent) :
     ui(new Ui::MoReciteDialog)
 {
     ui->setupUi(this);
+    searchBtn = ui->searchBtn;
+    bookBtn = ui->bookBtn;
+    statisticBtn = ui->statisticBtn;
+    personalBtn = ui->personalBtn;
 }
 
 MoReciteDialog::~MoReciteDialog()

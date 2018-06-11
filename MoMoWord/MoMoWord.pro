@@ -27,12 +27,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         momomaindialog.cpp \
-    morecitedialog.cpp
+    morecitedialog.cpp \
+    mosearchdialog.cpp \
+    mobookdialog.cpp \
+    mostatisticdialog.cpp \
+    mopersonaldialog.cpp \
+    mosignindialog.cpp \
+    mosignupdialog.cpp
 
 HEADERS += \
         momomaindialog.h \
-    morecitedialog.h
+    morecitedialog.h \
+    mosearchdialog.h \
+    mobookdialog.h \
+    mostatisticdialog.h \
+    mopersonaldialog.h \
+    mosignindialog.h \
+    mosignupdialog.h
 
 FORMS += \
         momomaindialog.ui \
-    morecitedialog.ui
+    morecitedialog.ui \
+    mosearchdialog.ui \
+    mobookdialog.ui \
+    mostatisticdialog.ui \
+    mopersonaldialog.ui \
+    mosignindialog.ui \
+    mosignupdialog.ui
