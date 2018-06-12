@@ -6,6 +6,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
+#include <QCryptographicHash>
 
 namespace Ui {
 class MoSignInDialog;

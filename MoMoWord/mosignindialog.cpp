@@ -1,6 +1,5 @@
 #include "mosignindialog.h"
 #include "ui_mosignindialog.h"
-#include <QCryptographicHash>
 #include <QDebug>
 
 MoSignInDialog::MoSignInDialog(QWidget *parent, int *userID) :

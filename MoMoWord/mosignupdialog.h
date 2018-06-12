@@ -2,6 +2,11 @@
 #define MOSIGNUPDIALOG_H
 
 #include <QDialog>
+#include <QSqlDatabase>
+#include <QSqlQueryModel>
+#include <QSqlRecord>
+#include <QSqlQuery>
+#include <QCryptographicHash>
 
 namespace Ui {
 class MoSignUpDialog;
@@ -17,6 +22,8 @@ public:
 
 private:
     int *userID;
+private:
+    void clickSignUp();
 
 private:
     Ui::MoSignUpDialog *ui;

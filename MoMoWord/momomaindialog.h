@@ -30,11 +30,6 @@ private:
     MoStatisticDialog statisticDialog;
     MoPersonalDialog personalDialog;
 private:
-    void pushToSearch();
-    void pushToBook();
-    void pushToStatistic();
-    void pushToPersonal();
-
     void popBack();
 
 private:
