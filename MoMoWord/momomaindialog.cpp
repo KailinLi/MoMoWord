@@ -26,7 +26,22 @@ MoMoMainDialog::~MoMoMainDialog()
     delete ui;
 }
 
+void MoMoMainDialog::setUserID()
+{
+    reciteDialog.userID = userID;
+    searchDialog.userID = userID;
+    bookDialog.userID = userID;
+    statisticDialog.userID = userID;
+    personalDialog.userID = userID;
+    reciteDialog.initRecite ();
+    personalDialog.loadData ();
+    statisticDialog.drawDaily ();
+    statisticDialog.drawSum ();
+    searchDialog.loadHistory ("");
+}
+
 void MoMoMainDialog::popBack()
 {
     ui->stackedWidget->setCurrentIndex (0);
+    reciteDialog.initRecite ();
 }

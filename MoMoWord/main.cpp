@@ -15,10 +15,16 @@ int main(int argc, char *argv[])
     }
     QApplication a(argc, argv);
     MoMoMainDialog w;
+    //tmp
+    w.userID = 1;
+    w.setUserID ();
+    w.show ();
+    return a.exec ();
     MoSignInDialog *singIn = new MoSignInDialog(nullptr, &w.userID);
     switch (static_cast<MoSignInDialog::ReturnType>(singIn->exec())) {
     case MoSignInDialog::Success:
         singIn->~MoSignInDialog ();
+        w.setUserID ();
         w.show();
         return a.exec ();
         break;
@@ -26,6 +32,7 @@ int main(int argc, char *argv[])
         MoSignUpDialog *signUp = new MoSignUpDialog(nullptr, &w.userID);
         if (signUp->exec () == QDialog::Accepted) {
             signUp->~MoSignUpDialog ();
+            w.setUserID ();
             w.show ();
             return a.exec ();
         }

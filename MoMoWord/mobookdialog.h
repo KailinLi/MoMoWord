@@ -6,6 +6,9 @@
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
+#include <QStandardItemModel>
+#include <QList>
 
 namespace Ui {
 class MoBookDialog;
@@ -21,6 +24,16 @@ public:
 
 public:
     QToolButton *backBtn;
+    int userID;
+
+private:
+    void addToComboBox();
+    void refreshList();
+    void learnNewWords();
+
+private:
+    QStandardItemModel model;
+    QList<int> widList;
 
 private:
     Ui::MoBookDialog *ui;

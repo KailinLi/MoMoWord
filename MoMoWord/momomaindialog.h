@@ -22,6 +22,8 @@ public:
 
 public:
     int userID;
+public:
+    void setUserID();
 
 private:
     MoReciteDialog reciteDialog;

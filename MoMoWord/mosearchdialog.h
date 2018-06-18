@@ -3,9 +3,11 @@
 
 #include <QDialog>
 #include <QToolButton>
+#include <QCompleter>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
 
 namespace Ui {
 class MoSearchDialog;
@@ -20,7 +22,12 @@ public:
     ~MoSearchDialog();
 
 public:
+    void loadHistory(const QString &s);
+
+
+public:
     QToolButton *backBtn;
+    int userID;
 
 private:
     Ui::MoSearchDialog *ui;

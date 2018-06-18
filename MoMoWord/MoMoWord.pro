@@ -6,8 +6,10 @@
 
 QT       += core gui
 QT       += sql
+QT       += concurrent
+QMAKE_CXXFLAGS += -std=c++17
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = MoMoWord
 TEMPLATE = app
@@ -33,7 +35,9 @@ SOURCES += \
     mostatisticdialog.cpp \
     mopersonaldialog.cpp \
     mosignindialog.cpp \
-    mosignupdialog.cpp
+    mosignupdialog.cpp \
+    wordentry.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
         momomaindialog.h \
@@ -43,7 +47,9 @@ HEADERS += \
     mostatisticdialog.h \
     mopersonaldialog.h \
     mosignindialog.h \
-    mosignupdialog.h
+    mosignupdialog.h \
+    wordentry.h \
+    qcustomplot.h
 
 FORMS += \
         momomaindialog.ui \

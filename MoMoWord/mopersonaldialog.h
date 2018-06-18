@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
 
 namespace Ui {
 class MoPersonalDialog;
@@ -19,8 +20,13 @@ public:
     explicit MoPersonalDialog(QWidget *parent = 0);
     ~MoPersonalDialog();
 
+    void loadData();
+
+private:
+
 public:
     QToolButton *backBtn;
+    int userID;
 
 private:
     Ui::MoPersonalDialog *ui;

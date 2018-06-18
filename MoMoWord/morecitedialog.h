@@ -6,6 +6,11 @@
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QQueue>
+#include <QSqlQuery>
+//#include <qapplication.h>
+//#include <QtConcurrent>
+#include "wordentry.h"
 
 namespace Ui {
 class MoReciteDialog;
@@ -19,11 +24,35 @@ public:
     explicit MoReciteDialog(QWidget *parent = 0);
     ~MoReciteDialog();
 
+private:
+    enum State : int {
+        Unhide = 1,
+        Hide = 2
+    };
+
 public:
     QToolButton *searchBtn;
     QToolButton *bookBtn;
     QToolButton *statisticBtn;
     QToolButton *personalBtn;
+    int userID;
+
+private:
+    QQueue<WordEntry*> reciteQueue;
+    State state;
+
+private:
+    void loadWord();
+
+    void clickMiddleBtn();
+    void clickLeftBtn();
+    void clickRightBtn();
+
+    void repaintAll();
+    void showPunch();
+
+public:
+    void initRecite();
 
 private:
     Ui::MoReciteDialog *ui;

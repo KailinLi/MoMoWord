@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
 
 namespace Ui {
 class MoStatisticDialog;
@@ -20,7 +21,12 @@ public:
     ~MoStatisticDialog();
 
 public:
+    void drawDaily();
+    void drawSum();
+
+public:
     QToolButton *backBtn;
+    int userID;
 
 private:
     Ui::MoStatisticDialog *ui;

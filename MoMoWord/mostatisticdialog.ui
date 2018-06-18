@@ -26,7 +26,38 @@
     <string>...</string>
    </property>
   </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>30</y>
+     <width>301</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QCustomPlot" name="dailyCnt">
+    <attribute name="title">
+     <string>学习情况</string>
+    </attribute>
+   </widget>
+   <widget class="QCustomPlot" name="sumCnt">
+    <attribute name="title">
+     <string>单词统计</string>
+    </attribute>
+   </widget>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
