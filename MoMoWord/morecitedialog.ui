@@ -88,7 +88,7 @@
     <rect>
      <x>110</x>
      <y>110</y>
-     <width>400</width>
+     <width>140</width>
      <height>20</height>
     </rect>
    </property>
@@ -146,6 +146,16 @@
    </property>
    <property name="text">
     <string>F3</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="wordLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>110</y>
+     <width>140</width>
+     <height>30</height>
+    </rect>
    </property>
   </widget>
  </widget>

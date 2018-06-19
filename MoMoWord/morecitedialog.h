@@ -40,6 +40,7 @@ public:
 private:
     QQueue<WordEntry*> reciteQueue;
     State state;
+    bool spell;
 
 private:
     void loadWord();

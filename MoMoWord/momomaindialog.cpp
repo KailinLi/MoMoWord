@@ -37,7 +37,8 @@ void MoMoMainDialog::setUserID()
     personalDialog.loadData ();
     statisticDialog.drawDaily ();
     statisticDialog.drawSum ();
-    searchDialog.loadHistory ("");
+    searchDialog.loadHistory ();
+//    searchDialog.ifFilter = true;
 }
 
 void MoMoMainDialog::popBack()

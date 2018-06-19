@@ -27,14 +27,30 @@ void MoReciteDialog::loadWord()
         showPunch ();
         return;
     }
-    ui->wordLabel->setText (reciteQueue.front ()->word);
-    ui->phonogramLabel->setText (reciteQueue.front ()->phonogram);
-    ui->translationLabel->setText (tr("请把英文发音和中文解释说出口"));
-    ui->leftBtn->hide ();
-    ui->rightBtn->hide ();
-    ui->middleBtn->setText (tr("显示"));
-    state = State::Hide;
-    repaintAll ();
+    if (spell) {
+        ui->wordLabel->setText (reciteQueue.front ()->word);
+        ui->phonogramLabel->setText (reciteQueue.front ()->phonogram);
+        ui->translationLabel->setText (tr("请把英文发音和中文解释说出口"));
+        ui->leftBtn->hide ();
+        ui->rightBtn->hide ();
+        ui->wordLineEdit->hide ();
+        ui->middleBtn->setText (tr("显示"));
+        state = State::Hide;
+        repaintAll ();
+    }
+    else {
+        QString showWord = reciteQueue.front ()->word.left (1);
+        for (int i = 1; i < reciteQueue.front ()->word.size (); ++i) showWord.append ('_');
+        ui->wordLabel->setText (showWord);
+        ui->phonogramLabel->setText (reciteQueue.front ()->phonogram);
+        ui->translationLabel->setText (reciteQueue.front ()->translation);
+        ui->leftBtn->hide ();
+        ui->rightBtn->hide ();
+        ui->wordLineEdit->show ();
+        ui->middleBtn->setText (tr("显示"));
+        state = State::Hide;
+        repaintAll ();
+    }
     //    ui->translationLabel->setText (reciteQueue.front ()->translation);
 }
 
@@ -147,6 +163,7 @@ void MoReciteDialog::repaintAll()
     ui->wordLabel->repaint ();
     ui->phonogramLabel->repaint ();
     ui->translationLabel->repaint ();
+    ui->wordLineEdit->repaint ();
 }
 
 void MoReciteDialog::showPunch()
@@ -191,5 +208,12 @@ void MoReciteDialog::initRecite()
                                          query.value ("is_new").toBool ());
         reciteQueue.push_back (entry);
     }
+    //TODO
+    query.clear ();
+    query.prepare ("select english_or_chinese from user where uid = :uid");
+    query.bindValue (":uid", userID);
+    query.exec ();
+    if (query.next ()) spell = query.value ("english_or_chinese").toBool ();
+
     loadWord ();
 }

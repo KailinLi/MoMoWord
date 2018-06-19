@@ -62,3 +62,12 @@ create table punch (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 show tables ;
+
+create trigger punch_trigger_insert
+before insert on punch
+for each row begin
+  if (DATE(NEW.date) in (select DATE(date) from punch)) then
+    signal sqlstate '45000'
+    set message_text  = 'only one punch one day';
+  end if;
+end;

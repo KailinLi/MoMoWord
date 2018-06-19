@@ -22,12 +22,16 @@ public:
     ~MoSearchDialog();
 
 public:
-    void loadHistory(const QString &s);
+    void loadHistory();
+
+private:
+    void clickSearch();
 
 
 public:
     QToolButton *backBtn;
     int userID;
+//    bool ifFilter;
 
 private:
     Ui::MoSearchDialog *ui;
