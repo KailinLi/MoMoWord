@@ -31,6 +31,8 @@ private:
     MoBookDialog bookDialog;
     MoStatisticDialog statisticDialog;
     MoPersonalDialog personalDialog;
+
+    bool haveDraw;
 private:
     void popBack();
 

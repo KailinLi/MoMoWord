@@ -7,6 +7,8 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QCryptographicHash>
+#include <QInputDialog>
+#include <QPixmap>
 
 namespace Ui {
 class MoSignInDialog;
@@ -24,13 +26,15 @@ public:
     enum ReturnType : int {
         Success = 1,
         Exit = 2,
-        SignUp = 3
+        SignUp = 3,
+        Admin = 4
     };
 private:
     int *userID;
 private:
     void clickSignIn();
     void clickSignUp();
+    void clickConnect();
 
 private:
     Ui::MoSignInDialog *ui;

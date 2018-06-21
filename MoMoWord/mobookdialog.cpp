@@ -11,12 +11,14 @@ MoBookDialog::MoBookDialog(QWidget *parent) :
     backBtn = ui->backBtn;
     ui->wordListView->setModel( &model );
     addToComboBox ();
-    refreshList ();
+//    refreshList ();
     connect (ui->bookComboBox, &QComboBox::currentTextChanged, [this](QString s){
         qDebug() << s;
         refreshList ();
     });
     connect (ui->loadBtn, &QPushButton::clicked, [this](){learnNewWords ();});
+    QPixmap pic("://images/logo_minimum.png");
+    ui->logoLabel->setPixmap(pic);
 }
 
 MoBookDialog::~MoBookDialog()
@@ -44,9 +46,11 @@ void MoBookDialog::refreshList()
     query.next();
     int bid = query.value ("bid").toInt ();
     query.clear ();
-    query.prepare ("select wb.wid, word from word inner join word_book wb \
-                   on word.wid = wb.wid where wb.bid = :bid order by wb.wid");
+    query.prepare ("select wb.wid, word from word inner join \
+                   word_book wb on word.wid = wb.wid where wb.bid = :bid and \
+            wb.wid not in ( select wid from plan where uid = :uid ) order by wb.wid");
     query.bindValue (":bid", bid);
+    query.bindValue (":uid", userID);
     query.exec ();
     model.clear ();
     widList.clear ();
@@ -80,9 +84,11 @@ void MoBookDialog::learnNewWords()
         query.prepare("insert into plan (uid, wid, is_new) values (:uid, :wid, 1)");
         query.bindValue (":uid", userID);
         query.bindValue (":wid", widList[index]);
-        qDebug() << widList[index];
+//        qDebug() << widList[index];
         if (!query.exec()) {
             //TODO
+            QMessageBox::warning (this, tr("请充值"), tr("学习单词数已达到上限\n充值可以使你更强"), QMessageBox::Ok);
+            return;
         }
         model.removeRow (index);
         widList.removeAt (index);

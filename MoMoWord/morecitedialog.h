@@ -27,7 +27,8 @@ public:
 private:
     enum State : int {
         Unhide = 1,
-        Hide = 2
+        Hide = 2,
+        Hold = 3
     };
 
 public:
@@ -41,6 +42,7 @@ private:
     QQueue<WordEntry*> reciteQueue;
     State state;
     bool spell;
+    int planCnt;
 
 private:
     void loadWord();
@@ -51,6 +53,10 @@ private:
 
     void repaintAll();
     void showPunch();
+
+    bool checkSpell();
+
+    bool checkFinishDaily();
 
 public:
     void initRecite();

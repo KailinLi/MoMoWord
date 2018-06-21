@@ -37,7 +37,8 @@ SOURCES += \
     mosignindialog.cpp \
     mosignupdialog.cpp \
     wordentry.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    moadmindialog.cpp
 
 HEADERS += \
         momomaindialog.h \
@@ -49,7 +50,8 @@ HEADERS += \
     mosignindialog.h \
     mosignupdialog.h \
     wordentry.h \
-    qcustomplot.h
+    qcustomplot.h \
+    moadmindialog.h
 
 FORMS += \
         momomaindialog.ui \
@@ -59,4 +61,8 @@ FORMS += \
     mostatisticdialog.ui \
     mopersonaldialog.ui \
     mosignindialog.ui \
-    mosignupdialog.ui
+    mosignupdialog.ui \
+    moadmindialog.ui
+
+RESOURCES += \
+    images.qrc

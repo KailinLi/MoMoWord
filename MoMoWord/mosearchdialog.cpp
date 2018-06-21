@@ -10,14 +10,8 @@ MoSearchDialog::MoSearchDialog(QWidget *parent) :
     ui->setupUi(this);
     backBtn = ui->backBtn;
     connect (ui->searchBtn, &QPushButton::clicked, this, &MoSearchDialog::clickSearch);
-//    connect (ui->comboBox, &QComboBox::currentTextChanged, [this](const QString &s){
-//        if (!ifFilter) return;
-//        if (s.size () < 2) return;
-//        ifFilter = false;
-//        qDebug() << s;
-//        loadHistory (s);
-//        ifFilter = true;
-//    });
+    QPixmap pic("://images/logo_minimum.png");
+    ui->logoLabel->setPixmap(pic);
 }
 
 MoSearchDialog::~MoSearchDialog()

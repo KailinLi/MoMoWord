@@ -1,10 +1,13 @@
 #include "momomaindialog.h"
 #include "mosignindialog.h"
 #include "mosignupdialog.h"
+#include "moadmindialog.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "momoword");
     db.setHostName("localhost");
     db.setDatabaseName("momo_word");
@@ -13,7 +16,6 @@ int main(int argc, char *argv[])
     if (!db.open()) {
         return -1;
     }
-    QApplication a(argc, argv);
     MoMoMainDialog w;
     //tmp
     w.userID = 1;
@@ -41,6 +43,12 @@ int main(int argc, char *argv[])
             return 0;
         }
         break;
+    }
+    case MoSignInDialog::Admin: {
+        singIn->~MoSignInDialog ();
+        MoAdminDialog admin;
+        admin.show ();
+        a.exec ();
     }
     default:
         return 0;

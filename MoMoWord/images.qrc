@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/bold.png</file>
+        <file>images/clear.png</file>
+        <file>images/color.png</file>
+        <file>images/italic.png</file>
+        <file>images/save.png</file>
+        <file>images/send.png</file>
+        <file>images/statistic.png</file>
+        <file>images/under.png</file>
+        <file>images/set.png</file>
+        <file>images/book.png</file>
+        <file>images/user.png</file>
+        <file>images/back.png</file>
+        <file>images/search.png</file>
+        <file>images/logo.png</file>
+        <file>images/logo_min.png</file>
+        <file>images/logo_minimum.png</file>
+    </qresource>
+</RCC>

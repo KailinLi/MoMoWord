@@ -1,5 +1,6 @@
 #include "morecitedialog.h"
 #include "ui_morecitedialog.h"
+#include <QDebug>
 
 MoReciteDialog::MoReciteDialog(QWidget *parent) :
     QDialog(parent),
@@ -10,9 +11,12 @@ MoReciteDialog::MoReciteDialog(QWidget *parent) :
     bookBtn = ui->bookBtn;
     statisticBtn = ui->statisticBtn;
     personalBtn = ui->personalBtn;
+    ui->wordLineEdit->hide ();
     connect (ui->middleBtn, &QPushButton::clicked, this, &MoReciteDialog::clickMiddleBtn);
     connect (ui->leftBtn, &QPushButton::clicked, this, &MoReciteDialog::clickLeftBtn);
     connect (ui->rightBtn, &QPushButton::clicked, this, &MoReciteDialog::clickRightBtn);
+    QPixmap pic("://images/logo_minimum.png");
+    ui->logoLabel->setPixmap(pic);
 }
 
 MoReciteDialog::~MoReciteDialog()
@@ -24,7 +28,7 @@ void MoReciteDialog::loadWord()
 {
     //TODO
     if (reciteQueue.empty ()) {
-        showPunch ();
+        if (checkFinishDaily ()) showPunch ();
         return;
     }
     if (spell) {
@@ -34,6 +38,7 @@ void MoReciteDialog::loadWord()
         ui->leftBtn->hide ();
         ui->rightBtn->hide ();
         ui->wordLineEdit->hide ();
+        ui->middleBtn->show ();
         ui->middleBtn->setText (tr("显示"));
         state = State::Hide;
         repaintAll ();
@@ -48,6 +53,8 @@ void MoReciteDialog::loadWord()
         ui->rightBtn->hide ();
         ui->wordLineEdit->show ();
         ui->middleBtn->setText (tr("显示"));
+        ui->wordLineEdit->setEnabled (true);
+        ui->wordLineEdit->clear ();
         state = State::Hide;
         repaintAll ();
     }
@@ -57,21 +64,39 @@ void MoReciteDialog::loadWord()
 void MoReciteDialog::clickMiddleBtn()
 {
     if (state == State::Hide) {
-        ui->leftBtn->setText (tr("认识"));
-        ui->middleBtn->setText (reciteQueue.front ()->is_new ? tr("不熟悉") : tr("模糊"));
-        ui->rightBtn->setText (reciteQueue.front ()->is_new ? tr("不认识") : tr("忘记"));
-        ui->leftBtn->show ();
-        ui->rightBtn->show ();
-        ui->translationLabel->setText (reciteQueue.front ()->translation);
-        state = State::Unhide;
-        repaintAll ();
+        if (spell) {
+            ui->leftBtn->setText (tr("认识"));
+            ui->middleBtn->setText (reciteQueue.front ()->is_new ? tr("不熟悉") : tr("模糊"));
+            ui->rightBtn->setText (reciteQueue.front ()->is_new ? tr("不认识") : tr("忘记"));
+            ui->leftBtn->show ();
+            ui->rightBtn->show ();
+            ui->translationLabel->setText (reciteQueue.front ()->translation);
+            state = State::Unhide;
+            repaintAll ();
+        }
+        else {
+//            state = State::Unhide;
+            ui->middleBtn->setText (tr("确定"));
+            ui->wordLineEdit->setEnabled (false);
+            if (checkSpell ()) {
+                ui->wordLabel->setText ("<font color='Green'>" + reciteQueue.front ()->word + "</font>");
+//                clickLeftBtn ();
+//                ui->wordLabel->setText ("<font color='Green'>" + reciteQueue.front ()->word + "</font>");
+            }
+            else {
+//                clickMiddleBtn ();
+                ui->wordLabel->setText ("<font color='Red'>" + reciteQueue.front ()->word + "</font>");
+            }
+            state = State::Hold;
+            repaintAll ();
+        }
     }
     else if (state == State::Unhide) {
         if (reciteQueue.front ()->first_time) {
             //TODO
             QSqlQuery query(QSqlDatabase::database("momoword"));
             query.prepare("update plan set date = \
-                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 2, CURDATE())) where wid = :wid and uid = :uid");
+                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 2, CURDATE())), is_new = false where wid = :wid and uid = :uid");
             query.bindValue (":uid", userID);
             query.bindValue (":wid", reciteQueue.front ()->wid);
             if (!query.exec()) {
@@ -92,6 +117,12 @@ void MoReciteDialog::clickMiddleBtn()
         reciteQueue.pop_front ();
         loadWord ();
     }
+    else if (state == State::Hold) {
+        state = State::Unhide;
+        if (checkSpell ())
+            clickLeftBtn ();
+        else clickMiddleBtn ();
+    }
 }
 
 void MoReciteDialog::clickLeftBtn()
@@ -101,7 +132,7 @@ void MoReciteDialog::clickLeftBtn()
             //TODO
             QSqlQuery query(QSqlDatabase::database("momoword"));
             query.prepare("update plan set date = \
-                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 3, CURDATE())) where wid = :wid and uid = :uid");
+                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 3, CURDATE())), is_new = false where wid = :wid and uid = :uid");
             query.bindValue (":uid", userID);
             query.bindValue (":wid", reciteQueue.front ()->wid);
             if (!query.exec()) {
@@ -129,7 +160,7 @@ void MoReciteDialog::clickRightBtn()
             //TODO
             QSqlQuery query(QSqlDatabase::database("momoword"));
             query.prepare("update plan set date = \
-                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 1, CURDATE())) where wid = :wid and uid = :uid");
+                          TIMESTAMPADD(HOUR, 0, TIMESTAMPADD(DAY, 1, CURDATE())), is_new = false where wid = :wid and uid = :uid");
             query.bindValue (":uid", userID);
             query.bindValue (":wid", reciteQueue.front ()->wid);
             if (!query.exec()) {
@@ -184,18 +215,49 @@ void MoReciteDialog::showPunch()
     ui->wordLabel->setText (tr("打卡成功"));
     ui->phonogramLabel->setText (tr("今天的任务完成了"));
     ui->translationLabel->setText (tr("累计打卡 %1 天").arg (query.value (0).toInt ()));
+    ui->wordLineEdit->hide ();
     ui->leftBtn->hide ();
     ui->middleBtn->hide ();
     ui->rightBtn->hide ();
     repaintAll ();
 }
 
+bool MoReciteDialog::checkSpell()
+{
+    return !ui->wordLineEdit->text ().compare (reciteQueue.front ()->word);
+}
+
+bool MoReciteDialog::checkFinishDaily()
+{
+    QSqlQuery query(QSqlDatabase::database("momoword"));
+    query.prepare("select count(*) from plan where DATE(first_time) = CURDATE() and uid = :uid");
+    query.bindValue (":uid", userID);
+    query.exec();
+    query.next ();
+    qDebug() << query.value (0).toInt ();
+    if (query.value (0).toInt () < planCnt) {
+        ui->wordLabel->setText (tr("今天任务未完成"));
+        ui->translationLabel->setText (tr("快去选词吧"));
+        ui->phonogramLabel->setText (tr(""));
+        ui->middleBtn->hide ();
+        ui->leftBtn->hide ();
+        ui->rightBtn->hide ();
+        repaintAll ();
+        return false;
+    }
+    return true;
+}
+
 
 void MoReciteDialog::initRecite()
 {
+    while (!reciteQueue.empty ()) {
+        delete reciteQueue.front ();
+        reciteQueue.pop_front ();
+    }
     QSqlQuery query(QSqlDatabase::database("momoword"));
     query.prepare("select w.wid, word, phonogram, translation, is_new from plan \
-                  inner join word w on plan.wid = w.wid where DATE(date) = current_date() and uid = :uid");
+                  inner join word w on plan.wid = w.wid where DATE(date) = current_date() or is_new = 1 and uid = :uid");
     query.bindValue (":uid", userID);
     if (!query.exec()) {
         //TODO
@@ -210,10 +272,12 @@ void MoReciteDialog::initRecite()
     }
     //TODO
     query.clear ();
-    query.prepare ("select english_or_chinese from user where uid = :uid");
+    query.prepare ("select english_or_chinese, daily_plan from user where uid = :uid");
     query.bindValue (":uid", userID);
     query.exec ();
-    if (query.next ()) spell = query.value ("english_or_chinese").toBool ();
-
+    if (query.next ()) {
+        spell = query.value ("english_or_chinese").toBool ();
+        planCnt = query.value ("daily_plan").toInt ();
+    }
     loadWord ();
 }

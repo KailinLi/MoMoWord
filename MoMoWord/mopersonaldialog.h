@@ -7,6 +7,7 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
+#include <QInputDialog>
 
 namespace Ui {
 class MoPersonalDialog;
@@ -23,7 +24,8 @@ public:
     void loadData();
 
 private:
-
+    void updateInfo();
+    void buyMore();
 public:
     QToolButton *backBtn;
     int userID;

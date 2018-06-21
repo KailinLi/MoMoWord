@@ -8,6 +8,8 @@ MoStatisticDialog::MoStatisticDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     backBtn = ui->backBtn;
+    QPixmap pic("://images/logo_minimum.png");
+    ui->logoLabel->setPixmap(pic);
 //    drawSum ();
 //    drawDaily ();
 }
@@ -141,6 +143,11 @@ void MoStatisticDialog::drawDaily()
 
 void MoStatisticDialog::drawSum()
 {
+//    for( int g = 0; g < ui->sumCnt->graphCount(); g++ )
+//        ui->sumCnt->removeGraph (g);
+//    for (int l = ui->sumCnt->layerCount (); l >= 0; --l )
+//        ui->sumCnt->removeLayer (ui->sumCnt->layer (l));
+//    ui->sumCnt->replot();
 
     QVector<QVector<double>> cnt (4, QVector<double>(7, 0));
     for (int i = 0; i < 7; ++i) {
