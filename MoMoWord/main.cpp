@@ -8,20 +8,20 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "momoword");
-    db.setHostName("localhost");
-    db.setDatabaseName("momo_word");
-    db.setUserName("root");
-    db.setPassword("e,271828");
-    if (!db.open()) {
-        return -1;
-    }
+//    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "momoword");
+//    db.setHostName("localhost");
+//    db.setDatabaseName("momo_word");
+//    db.setUserName("root");
+//    db.setPassword("e,271828");
+//    if (!db.open()) {
+//        return -1;
+//    }
     MoMoMainDialog w;
     //tmp
-    w.userID = 1;
-    w.setUserID ();
-    w.show ();
-    return a.exec ();
+//    w.userID = 1;
+//    w.setUserID ();
+//    w.show ();
+//    return a.exec ();
     MoSignInDialog *singIn = new MoSignInDialog(nullptr, &w.userID);
     switch (static_cast<MoSignInDialog::ReturnType>(singIn->exec())) {
     case MoSignInDialog::Success:

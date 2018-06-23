@@ -22,7 +22,6 @@ public:
     ~MoPersonalDialog();
 
     void loadData();
-
 private:
     void updateInfo();
     void buyMore();

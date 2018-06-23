@@ -22,7 +22,7 @@ MoMoMainDialog::MoMoMainDialog(QWidget *parent) :
         }
         ui->stackedWidget->setCurrentIndex (3);
     });
-    connect (reciteDialog.personalBtn, &QToolButton::clicked, [this](){ui->stackedWidget->setCurrentIndex (4);});
+    connect (reciteDialog.personalBtn, &QToolButton::clicked, [this](){personalDialog.loadData (); ui->stackedWidget->setCurrentIndex (4);});
     connect (searchDialog.backBtn, &QToolButton::clicked, this, &MoMoMainDialog::popBack);
     connect (bookDialog.backBtn, &QToolButton::clicked, this, &MoMoMainDialog::popBack);
     connect (statisticDialog.backBtn, &QToolButton::clicked, this, &MoMoMainDialog::popBack);
@@ -46,6 +46,7 @@ void MoMoMainDialog::setUserID()
 //    statisticDialog.drawDaily ();
 //    statisticDialog.drawSum ();
     searchDialog.loadHistory ();
+    bookDialog.addToComboBox ();
     bookDialog.refreshList ();
 //    searchDialog.ifFilter = true;
 }

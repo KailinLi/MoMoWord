@@ -37,6 +37,9 @@
       <property name="text">
        <string>注册</string>
       </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
     <item row="1" column="0">
@@ -53,6 +56,9 @@
       </property>
       <property name="text">
        <string>登录</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

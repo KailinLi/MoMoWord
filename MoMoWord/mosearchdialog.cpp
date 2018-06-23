@@ -12,6 +12,7 @@ MoSearchDialog::MoSearchDialog(QWidget *parent) :
     connect (ui->searchBtn, &QPushButton::clicked, this, &MoSearchDialog::clickSearch);
     QPixmap pic("://images/logo_minimum.png");
     ui->logoLabel->setPixmap(pic);
+//    this->setStyleSheet ("background-color: rgb(255, 255, 255)");
 }
 
 MoSearchDialog::~MoSearchDialog()
@@ -53,5 +54,9 @@ void MoSearchDialog::clickSearch()
         query.bindValue (":uid", userID);
         query.bindValue (":wid", wid);
         query.exec ();
+    }
+    else {
+        ui->wordLabel->setText (tr("暂未收录"));
+        ui->wordLabel->repaint ();
     }
 }

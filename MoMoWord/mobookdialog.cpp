@@ -10,7 +10,7 @@ MoBookDialog::MoBookDialog(QWidget *parent) :
     ui->setupUi(this);
     backBtn = ui->backBtn;
     ui->wordListView->setModel( &model );
-    addToComboBox ();
+//    addToComboBox ();
 //    refreshList ();
     connect (ui->bookComboBox, &QComboBox::currentTextChanged, [this](QString s){
         qDebug() << s;
@@ -19,6 +19,7 @@ MoBookDialog::MoBookDialog(QWidget *parent) :
     connect (ui->loadBtn, &QPushButton::clicked, [this](){learnNewWords ();});
     QPixmap pic("://images/logo_minimum.png");
     ui->logoLabel->setPixmap(pic);
+//    this->setStyleSheet ("background-color: rgb(255, 255, 255)");
 }
 
 MoBookDialog::~MoBookDialog()

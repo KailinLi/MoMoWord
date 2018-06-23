@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>290</width>
+    <height>280</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>40</y>
-     <width>382</width>
-     <height>237</height>
+     <y>60</y>
+     <width>271</width>
+     <height>212</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -60,8 +60,14 @@
     </item>
     <item row="7" column="1" colspan="2">
      <widget class="QPushButton" name="signUpBtn">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 190, 159, 60%)</string>
+      </property>
       <property name="text">
        <string>注册</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -70,8 +76,14 @@
     </item>
     <item row="7" column="0">
      <widget class="QPushButton" name="quitBtn">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 190, 159, 60%)</string>
+      </property>
       <property name="text">
        <string>退出</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -103,6 +115,9 @@
       <property name="text">
        <string>男</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="4" column="2">
@@ -117,6 +132,9 @@
       <property name="text">
        <string>英/中</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item row="5" column="2">
@@ -127,6 +145,19 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="logoLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>logo</string>
+   </property>
   </widget>
  </widget>
  <resources/>

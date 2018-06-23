@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QSqlTableModel>
+#include <QSqlQuery>
+#include <QTimer>
 
 namespace Ui {
 class MoAdminDialog;
@@ -18,9 +20,11 @@ public:
 
 private:
     QSqlTableModel * model;
+    QTimer *timer;
 
 private:
     void refresh();
+    void loadUserCnt();
 
 private:
     Ui::MoAdminDialog *ui;

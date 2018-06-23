@@ -1,5 +1,6 @@
 #include "mopersonaldialog.h"
 #include "ui_mopersonaldialog.h"
+#include <QDebug>
 
 MoPersonalDialog::MoPersonalDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,6 +28,7 @@ MoPersonalDialog::MoPersonalDialog(QWidget *parent) :
     connect (ui->buyBtn, &QPushButton::clicked, this, &MoPersonalDialog::buyMore);
     QPixmap pic("://images/logo_minimum.png");
     ui->logoLabel->setPixmap(pic);
+//    this->setStyleSheet ("background-color: rgb(255, 255, 255)");
 }
 
 MoPersonalDialog::~MoPersonalDialog()
@@ -49,6 +51,7 @@ void MoPersonalDialog::loadData()
         if (query.value ("english_or_chinese").toBool ())
             ui->ECCheckBox->setChecked (true);
         else ui->CECheckBox->setChecked (true);
+        qDebug() << "**" << query.value ("daily_plan").toInt ();
         ui->planSpinBox->setValue (query.value ("daily_plan").toInt ());
         ui->limitCntLabel->setText (QString::number (query.value ("word_limit").toInt ()));
         ui->limitCntLabel->repaint ();
@@ -66,6 +69,7 @@ void MoPersonalDialog::updateInfo()
     query.bindValue (":uid", userID);
     if (!query.exec ()) {
         //TODO
+        qDebug() << "hehe";
     }
 }
 

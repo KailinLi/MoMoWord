@@ -10,6 +10,7 @@ MoStatisticDialog::MoStatisticDialog(QWidget *parent) :
     backBtn = ui->backBtn;
     QPixmap pic("://images/logo_minimum.png");
     ui->logoLabel->setPixmap(pic);
+//    this->setStyleSheet ("background-color: rgb(255, 255, 255)");
 //    drawSum ();
 //    drawDaily ();
 }
@@ -63,6 +64,7 @@ void MoStatisticDialog::drawDaily()
 
     for (int i = 1; i <= 7; ++i) {
         ticks << i;
+        int tmpMax = 0;
         labels << QString::number(currentDate.addDays (i - 7).day ()) + tr("日");
         QSqlQuery query(QSqlDatabase::database("momoword"));
         query.prepare("select proficiency, count(proficiency) from memory where uid = :uid and \
@@ -72,7 +74,8 @@ void MoStatisticDialog::drawDaily()
         query.exec();
         rememberData << 0; blurryData << 0; oblivionData << 0;
         while (query.next ()) {
-            maxData = std::max(maxData, query.value (1).toInt ());
+            tmpMax += query.value (1).toInt ();
+//            maxData = std::max(maxData, query.value (1).toInt ());
             switch (query.value (0).toInt ()) {
             case 1:
                 rememberData.pop_back ();
@@ -88,6 +91,7 @@ void MoStatisticDialog::drawDaily()
                 break;
             }
         }
+        maxData = std::max(maxData, tmpMax);
     }
 
     QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);

@@ -16,5 +16,6 @@
         <file>images/logo.png</file>
         <file>images/logo_min.png</file>
         <file>images/logo_minimum.png</file>
+        <file>images/refresh.png</file>
     </qresource>
 </RCC>

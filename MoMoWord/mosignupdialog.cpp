@@ -28,6 +28,9 @@ MoSignUpDialog::MoSignUpDialog(QWidget *parent, int *userID) :
         if (ui->ECCheckBox->isChecked ()) ui->CECheckBox->setCheckable (false);
         else ui->CECheckBox->setCheckable (true);
     });
+    QPixmap pic("://images/logo_min.png");
+    ui->logoLabel->setPixmap(pic.scaledToHeight (50));
+    ui->userNameLineEdit->setFocus ();
 }
 
 MoSignUpDialog::~MoSignUpDialog()
@@ -38,12 +41,32 @@ MoSignUpDialog::~MoSignUpDialog()
 void MoSignUpDialog::clickSignUp()
 {
     //TODO
+    if (ui->userNameLineEdit->text ().isEmpty () ||
+            ui->passwdAgainLineEdit->text ().isEmpty () ||
+            ui->passwdLineEdit->text ().isEmpty ()) {
+        shakeWindow ();
+        ui->userNameLineEdit->clear ();
+        ui->userNameLineEdit->setPlaceholderText (tr("输入信息不完整"));
+        return;
+    }
+    qDebug() << ui->passwdAgainLineEdit->text ();
+    qDebug() << ui->passwdLineEdit->text ();
+    if (ui->passwdAgainLineEdit->text ().compare (ui->passwdLineEdit->text ())) {
+        shakeWindow ();
+        ui->userNameLineEdit->clear ();
+        ui->userNameLineEdit->setPlaceholderText (tr("两次密码不一致"));
+        return;
+    }
     QSqlQuery query(QSqlDatabase::database("momoword"));
     query.prepare("SELECT * FROM `user` WHERE uname = :uname");
     query.bindValue(":uname", ui->userNameLineEdit->text ());
     query.exec();
     if (query.next()) {
         //TODO
+        shakeWindow ();
+        ui->userNameLineEdit->clear ();
+        ui->userNameLineEdit->setPlaceholderText (tr("用户名已被注册"));
+        return;
     }
     else {
         query.clear ();
@@ -70,4 +93,23 @@ void MoSignUpDialog::clickSignUp()
             accept ();
         }
     }
+}
+
+void MoSignUpDialog::shakeWindow()
+{
+    QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "pos");
+    pAnimation->setDuration(500);
+    pAnimation->setLoopCount(2);
+    pAnimation->setKeyValueAt(0, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.1, QPoint(geometry().x() + 6, geometry().y() + 6));
+    pAnimation->setKeyValueAt(0.2, QPoint(geometry().x() - 6, geometry().y() + 6));
+    pAnimation->setKeyValueAt(0.3, QPoint(geometry().x() + 6, geometry().y() - 6));
+    pAnimation->setKeyValueAt(0.4, QPoint(geometry().x() - 6, geometry().y() - 6));
+    pAnimation->setKeyValueAt(0.5, QPoint(geometry().x() + 6, geometry().y() + 6));
+    pAnimation->setKeyValueAt(0.6, QPoint(geometry().x() - 6, geometry().y() + 6));
+    pAnimation->setKeyValueAt(0.7, QPoint(geometry().x() + 6, geometry().y() - 6));
+    pAnimation->setKeyValueAt(0.8, QPoint(geometry().x() - 6, geometry().y() - 6));
+    pAnimation->setKeyValueAt(0.9, QPoint(geometry().x() + 6, geometry().y() + 6));
+    pAnimation->setKeyValueAt(1, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }

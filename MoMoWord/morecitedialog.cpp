@@ -17,6 +17,8 @@ MoReciteDialog::MoReciteDialog(QWidget *parent) :
     connect (ui->rightBtn, &QPushButton::clicked, this, &MoReciteDialog::clickRightBtn);
     QPixmap pic("://images/logo_minimum.png");
     ui->logoLabel->setPixmap(pic);
+    connect (ui->wordLineEdit, &QLineEdit::returnPressed, this, &MoReciteDialog::clickMiddleBtn);
+//    this->setStyleSheet ("background-color: rgb(255, 255, 255)");
 }
 
 MoReciteDialog::~MoReciteDialog()
@@ -38,6 +40,7 @@ void MoReciteDialog::loadWord()
         ui->leftBtn->hide ();
         ui->rightBtn->hide ();
         ui->wordLineEdit->hide ();
+        ui->middleBtn->setStyleSheet ("background-color: rgb(0, 190, 159, 60%)");
         ui->middleBtn->show ();
         ui->middleBtn->setText (tr("显示"));
         state = State::Hide;
@@ -52,6 +55,8 @@ void MoReciteDialog::loadWord()
         ui->leftBtn->hide ();
         ui->rightBtn->hide ();
         ui->wordLineEdit->show ();
+        ui->middleBtn->show();
+        ui->middleBtn->setStyleSheet ("background-color: rgb(0, 190, 159, 60%)");
         ui->middleBtn->setText (tr("显示"));
         ui->wordLineEdit->setEnabled (true);
         ui->wordLineEdit->clear ();
@@ -65,8 +70,11 @@ void MoReciteDialog::clickMiddleBtn()
 {
     if (state == State::Hide) {
         if (spell) {
+            ui->leftBtn->setStyleSheet ("background-color: rgb(0, 190, 159, 60%)");
             ui->leftBtn->setText (tr("认识"));
+            ui->middleBtn->setStyleSheet ("background-color: rgb(250, 170, 20, 60%)");
             ui->middleBtn->setText (reciteQueue.front ()->is_new ? tr("不熟悉") : tr("模糊"));
+            ui->rightBtn->setStyleSheet ("background-color: rgb(255, 52, 106, 60%)");
             ui->rightBtn->setText (reciteQueue.front ()->is_new ? tr("不认识") : tr("忘记"));
             ui->leftBtn->show ();
             ui->rightBtn->show ();
@@ -76,6 +84,7 @@ void MoReciteDialog::clickMiddleBtn()
         }
         else {
 //            state = State::Unhide;
+            ui->middleBtn->setStyleSheet ("background-color: rgb(0, 190, 159, 60%)");
             ui->middleBtn->setText (tr("确定"));
             ui->wordLineEdit->setEnabled (false);
             if (checkSpell ()) {
@@ -113,6 +122,7 @@ void MoReciteDialog::clickMiddleBtn()
         }
 //        delete reciteQueue.front ();
         reciteQueue.front ()->first_time = false;
+        reciteQueue.front ()->is_new = false;
         reciteQueue.push_back (reciteQueue.front ());
         reciteQueue.pop_front ();
         loadWord ();
@@ -147,7 +157,8 @@ void MoReciteDialog::clickLeftBtn()
         if (!query.exec()) {
             //TODO
         }
-        delete reciteQueue.front ();
+        if (!--reciteQueue.front ()->count)
+            delete reciteQueue.front ();
         reciteQueue.pop_front ();
         loadWord ();
     }
@@ -177,6 +188,8 @@ void MoReciteDialog::clickRightBtn()
         }
 //        delete reciteQueue.front ();
         reciteQueue.front ()->first_time = false;
+        reciteQueue.front ()->is_new = false;
+        reciteQueue.front ()->count += 1;
         reciteQueue.push_back (reciteQueue.front ());
         reciteQueue.push_back (reciteQueue.front ());
         reciteQueue.pop_front ();
@@ -239,6 +252,7 @@ bool MoReciteDialog::checkFinishDaily()
         ui->wordLabel->setText (tr("今天任务未完成"));
         ui->translationLabel->setText (tr("快去选词吧"));
         ui->phonogramLabel->setText (tr(""));
+        ui->wordLineEdit->hide ();
         ui->middleBtn->hide ();
         ui->leftBtn->hide ();
         ui->rightBtn->hide ();
@@ -252,7 +266,8 @@ bool MoReciteDialog::checkFinishDaily()
 void MoReciteDialog::initRecite()
 {
     while (!reciteQueue.empty ()) {
-        delete reciteQueue.front ();
+        if (!--reciteQueue.front ()->count)
+            delete reciteQueue.front ();
         reciteQueue.pop_front ();
     }
     QSqlQuery query(QSqlDatabase::database("momoword"));

@@ -7,6 +7,7 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QCryptographicHash>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class MoSignUpDialog;
@@ -24,6 +25,7 @@ private:
     int *userID;
 private:
     void clickSignUp();
+    void shakeWindow();
 
 private:
     Ui::MoSignUpDialog *ui;

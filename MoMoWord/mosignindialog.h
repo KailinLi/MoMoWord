@@ -9,6 +9,7 @@
 #include <QCryptographicHash>
 #include <QInputDialog>
 #include <QPixmap>
+#include <QPropertyAnimation>
 
 namespace Ui {
 class MoSignInDialog;
@@ -35,6 +36,7 @@ private:
     void clickSignIn();
     void clickSignUp();
     void clickConnect();
+    void shakeWindow();
 
 private:
     Ui::MoSignInDialog *ui;

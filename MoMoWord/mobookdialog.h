@@ -29,9 +29,9 @@ public:
 
 public:
     void refreshList();
+    void addToComboBox();
 
 private:
-    void addToComboBox();
     void learnNewWords();
 
 private:

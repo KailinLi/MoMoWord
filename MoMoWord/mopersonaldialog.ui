@@ -39,10 +39,10 @@
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>70</x>
      <y>30</y>
-     <width>291</width>
-     <height>181</height>
+     <width>271</width>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -62,8 +62,16 @@
     </item>
     <item row="2" column="0" colspan="2">
      <widget class="QLabel" name="userNameLabel">
+      <property name="font">
+       <font>
+        <pointsize>17</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>用户名</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -104,6 +112,9 @@
     </item>
     <item row="2" column="2">
      <widget class="QPushButton" name="saveBtn">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 190, 159, 60%)</string>
+      </property>
       <property name="text">
        <string>保存</string>
       </property>
@@ -152,6 +163,9 @@
     </item>
     <item row="7" column="2">
      <widget class="QPushButton" name="buyBtn">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(195, 144, 202, 60%)</string>
+      </property>
       <property name="text">
        <string>购买更多</string>
       </property>
